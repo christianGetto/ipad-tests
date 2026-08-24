@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Unit 1 – I love London · Class 7e</title>
+<style>
+  :root{
+    --bg:#f6f6f3;
+    --card:#ffffff;
+    --text:#171717;
+    --muted:#6f6f6f;
+    --line:#d9d9d4;
+    --ok:#e8f6ea;
+    --warn:#fff4d8;
+    --bad:#fde7e7;
+    --accent:#111;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+  }
+  .wrap{
+    max-width:860px;
+    margin:0 auto;
+    padding:28px 18px 60px;
+  }
+  .topbar{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    align-items:center;
+    margin-bottom:20px;
+  }
+  .title h1{margin:0;font-size:32px;letter-spacing:-.5px}
+  .title p{margin:5px 0 0;color:var(--muted)}
+  .hero{
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(135deg,#fff4b8 0%,#ffd8e8 42%,#d7e8ff 100%);
+    border:1px solid #e1d9d0;
+    border-radius:24px;
+    padding:28px 28px 24px;
+    margin-bottom:18px;
+  }
+  .hero:before,.hero:after{
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    opacity:.35;
+    pointer-events:none;
+  }
+  .hero:before{width:170px;height:170px;background:#ff8fb1;right:-45px;top:-65px}
+  .hero:after{width:130px;height:130px;background:#78b7ff;right:85px;bottom:-75px}
+  .hero-kicker{
+    display:inline-block;
+    background:#171717;color:#fff;
+    border-radius:999px;
+    padding:7px 12px;
+    font-size:13px;font-weight:800;
+    letter-spacing:.8px;text-transform:uppercase;
+    margin-bottom:12px;
+  }
+  .hero h1{margin:0;font-size:38px;letter-spacing:-1px;position:relative}
+  .hero p{margin:8px 0 0;font-size:17px;color:#454545;position:relative}
+  .wordchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative}
+  .chip{background:rgba(255,255,255,.72);border:1px solid rgba(0,0,0,.08);padding:7px 10px;border-radius:10px;font-weight:700;font-size:13px}
+  #setupCard{border-top:5px solid #171717}
+  .status{
+    font-size:13px;
+    color:var(--muted);
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:8px 11px;
+    white-space:nowrap;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin-bottom:16px;
+  }
+  label{display:block;font-weight:650;margin-bottom:7px}
+  input[type="text"], input[type="password"], select{
+    width:100%;
+    font-size:18px;
+    padding:13px 14px;
+    border:1.5px solid #bbb;
+    border-radius:12px;
+    background:#fff;
+  }
+  input:focus, select:focus{outline:3px solid rgba(0,0,0,.08);border-color:#333}
+  .grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  .question{
+    display:grid;
+    grid-template-columns:42px 1fr;
+    gap:12px;
+    align-items:start;
+    padding:17px 0;
+    border-bottom:1px solid #ecece8;
+  }
+  .question:last-child{border-bottom:none}
+  .nr{
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:#f0f0ed;font-weight:700;
+  }
+  .prompt{font-size:18px;font-weight:700;margin:1px 0 9px}
+  .help{font-size:12px;color:var(--muted);margin-top:6px}
+  button{
+    appearance:none;
+    border:0;
+    border-radius:13px;
+    padding:13px 18px;
+    font-size:17px;
+    font-weight:750;
+    cursor:pointer;
+  }
+  .primary{background:var(--accent);color:#fff}
+  .secondary{background:#e7e7e5;color:#111}
+  .danger{background:#7a1010;color:#fff}
+  .buttons{display:flex;gap:10px;flex-wrap:wrap}
+  .full{width:100%;margin-top:8px}
+  .hidden{display:none !important}
+  .locked input{background:#f2f2ef;color:#555}
+  .result-row{
+    display:grid;
+    grid-template-columns:44px 1.2fr 1.2fr .9fr 150px;
+    gap:10px;
+    align-items:center;
+    padding:12px 0;
+    border-bottom:1px solid #ecece8;
+  }
+  .result-row.head{
+    font-size:12px;color:var(--muted);font-weight:750;text-transform:uppercase;
+  }
+  .answer-good{background:var(--ok)}
+  .answer-half{background:var(--warn)}
+  .answer-bad{background:var(--bad)}
+  .pts{
+    display:flex;gap:4px;justify-content:flex-end;
+  }
+  .ptbtn{
+    padding:8px 9px;
+    font-size:13px;
+    border:1px solid var(--line);
+    background:#fff;
+  }
+  .ptbtn.active{background:#111;color:#fff}
+  .summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:16px;
+  }
+  .metric{
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    background:#fafaf8;
+  }
+  .metric strong{display:block;font-size:24px;margin-top:4px}
+  .note{
+    border-left:4px solid #111;
+    padding:10px 12px;
+    background:#f3f3f0;
+    border-radius:8px;
+    color:#444;
+    font-size:14px;
+  }
+  dialog{
+    width:min(92vw,420px);
+    border:0;
+    border-radius:18px;
+    padding:0;
+    box-shadow:0 20px 70px rgba(0,0,0,.25);
+  }
+  dialog::backdrop{background:rgba(0,0,0,.42)}
+  .modal{padding:22px}
+  .modal h2{margin-top:0}
+  .small{font-size:13px;color:var(--muted)}
+  #previewImg{
+    max-width:100%;
+    border-radius:12px;
+    border:1px solid var(--line);
+    margin-top:14px;
+  }
+  @media (max-width:700px){
+    .grid{grid-template-columns:1fr}
+    .result-row{grid-template-columns:36px 1fr}
+    .result-row > div:nth-child(3),
+    .result-row > div:nth-child(4),
+    .result-row > div:nth-child(5){grid-column:2}
+    .result-row.head{display:none}
+    .summary{grid-template-columns:1fr}
+    .title h1{font-size:27px}
+  }
+
+  #passwordDialog{
+    border:0;
+    padding:0;
+    background:transparent;
+    max-width:none;
+    max-height:none;
+  }
+  #passwordDialog[open]{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(0,0,0,.48);
+    z-index:99999;
+  }
+  #passwordDialog::backdrop{background:rgba(0,0,0,.48)}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div style="display:flex;gap:24px;align-items:center;justify-content:space-between;position:relative;z-index:1">
+      <div style="min-width:0">
+        <span class="hero-kicker">English · Class 7e</span>
+        <h1>Unit 1 – I love London 🇬🇧</h1>
+        <p>Ready? 12 words. You’ve got this.</p>
+        <div class="wordchips">
+          <span class="chip">LONDON</span>
+          <span class="chip">VOCABULARY</span>
+          <span class="chip">12 WORDS</span>
+        </div>
+      </div>
+      <div aria-hidden="true" style="flex:0 0 220px">
+        <svg viewBox="0 0 220 150" width="220" height="150" role="img" aria-label="London illustration">
+          <rect x="0" y="116" width="220" height="34" rx="8" fill="#d7e8ff"/>
+          <rect x="22" y="72" width="82" height="48" rx="5" fill="#e63946"/>
+          <rect x="31" y="82" width="19" height="15" rx="2" fill="#fff"/>
+          <rect x="55" y="82" width="19" height="15" rx="2" fill="#fff"/>
+          <rect x="79" y="82" width="19" height="15" rx="2" fill="#fff"/>
+          <rect x="14" y="99" width="98" height="10" rx="3" fill="#171717"/>
+          <circle cx="43" cy="121" r="11" fill="#171717"/>
+          <circle cx="91" cy="121" r="11" fill="#171717"/>
+          <circle cx="43" cy="121" r="5" fill="#fff"/>
+          <circle cx="91" cy="121" r="5" fill="#fff"/>
+          <rect x="151" y="39" width="35" height="77" fill="#f4e8d0"/>
+          <polygon points="148,39 189,39 178,26 159,26" fill="#171717"/>
+          <rect x="160" y="51" width="17" height="18" fill="#fff"/>
+          <circle cx="168.5" cy="60" r="6" fill="#171717"/>
+          <rect x="164" y="75" width="9" height="41" fill="#d9b98b"/>
+          <line x1="168.5" y1="20" x2="168.5" y2="5" stroke="#171717" stroke-width="3"/>
+          <circle cx="168.5" cy="4" r="3" fill="#e63946"/>
+          <text x="15" y="25" font-size="18" font-weight="800" fill="#171717">LONDON</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="topbar style="justify-content:flex-end;margin-bottom:12px">
+    <div id="monitorStatus" class="status">Überwachung aktiv</div>
+  </div>
+
+  <section id="setupCard" class="card">
+    <h2 style="margin:0 0 18px;font-size:22px">Let’s go.</h2>
+    <div class="grid">
+      <div>
+        <label for="studentName">Name</label>
+        <input id="studentName" type="text" autocomplete="off" autocorrect="off" autocapitalize="words" spellcheck="false" placeholder="Vor- und Nachname" />
+      </div>
+      <div>
+        <label>Bewertung</label>
+        <div style="display:flex;align-items:center;gap:10px;min-height:50px;padding:12px 14px;border:1.5px solid #bbb;border-radius:12px;background:#fff">
+          <label class="lrs-choice" style="display:flex;align-items:center;gap:10px;margin:12px 0;font-weight:600;">
+<input type="checkbox" id="lrsMode" />
+<span>LRS? – Ja, ich habe LRS</span>
+</label>
+        </div>
+      </div>
+    </div>
+    <p class="small">Der Test startet mit 12 zufälligen Vokabelaufgaben. Beim tatsächlichen Verlassen der Testseite wird zusätzlich ein deutlicher Alarmton ausgelöst. Kopieren/Einfügen, Drag & Drop und das Kontextmenü sind während des Tests gesperrt.</p>
+    <button id="startBtn" class="primary full">Test starten</button>
+  </section>
+
+  <section id="testCard" class="card hidden">
+    <div id="questions"></div>
+    <button id="submitBtn" class="danger full">Abgeben</button>
+  </section>
+
+  <section id="correctionCard" class="card hidden">
+    <h2 style="margin-top:0">Korrektur</h2>
+    <div class="note">Die Antworten sind eingefroren. Punkte können hier von der Lehrkraft manuell angepasst werden.</div>
+    <div class="result-row head">
+      <div>#</div><div>Deutsch</div><div>Antwort</div><div>Lösung</div><div>Punkte</div>
+    </div>
+    <div id="results"></div>
+
+    <div class="summary">
+      <div class="metric">Gesamt<strong id="totalScore">0 / 12</strong></div>
+      <div class="metric">Note<strong id="gradeOut">–</strong></div>
+      <div class="metric">Seite verlassen<strong id="leaveCountOut">0×</strong></div>
+      <div class="metric">Split-Screen-Verdacht<strong id="splitCountOut">0×</strong></div>
+    </div>
+
+    <div id="leaveLogBox" class="note" style="margin-top:16px"></div>
+
+    <div id="uploadStatus" class="note" style="margin-top:16px">Ergebnis noch nicht übertragen.</div>
+    <div class="buttons" style="margin-top:16px">
+      <button id="outputBtn" class="primary">Korrektur als JPEG</button>
+      <button id="newTestBtn" class="secondary">Neuer Test</button>
+    </div>
+    <div id="previewWrap" class="hidden">
+      <img id="previewImg" alt="Korrekturvorschau"/>
+      <p class="small">Falls iPadOS den Download nicht direkt speichert, Bild lange gedrückt halten und „In Fotos sichern“ wählen.</p>
+    </div>
+  </section>
+</div>
+
+<dialog id="passwordDialog">
+  <div class="modal">
+    <h2>Lehrerfreigabe</h2>
+    <p>Passwort eingeben, um die Korrektur zu öffnen.</p>
+    <input id="teacherPassword" type="password" inputmode="numeric" placeholder="Passwort" />
+    <p id="passwordError" class="small" style="color:#9b1111"></p>
+    <div class="buttons">
+      <button id="checkPasswordBtn" class="primary">Korrektur öffnen</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+const lrsBox = document.getElementById("lrsMode");
+if (lrsBox) {
+  lrsBox.checked = false;
+  lrsBox.addEventListener("change", () => {
+    lrsMode = lrsBox.checked;
+  });
+}
+
+/* =========================
+   EINSTELLUNG
+   Passwort hier ändern:
+   ========================= */
+const TEACHER_PASSWORD = "2079";
+const RESULTS_URL = "https://script.google.com/macros/s/AKfycbz7s4KS9qzBWCZ4ia9qT2UONfdJY4_dKmzTZImIklzFhQRWOt3Yfyv4YHEXSas2mqgiMw/exec";
+
+const VOCAB = [
+  {de:"Platz", answers:["place"]},
+  {de:"König", answers:["king"]},
+  {de:"Königin", answers:["queen"]},
+  {de:"Präsident/in", answers:["president"]},
+  {de:"berühmt (für, wegen)", answers:["famous"]},
+  {de:"Glocke; Klingel", answers:["bell"]},
+  {de:"Turm", answers:["tower"]},
+  {de:"Detektiv/in", answers:["detective"]},
+  {de:"die U-Bahn (in London)", answers:["the Tube","the tube","Tube","tube"], rule:"tubePractice"},
+  {de:"die U-Bahn", answers:["the underground","underground"]},
+  {de:"reisen; fahren, sich fortbewegen", answers:["travel"]},
+  {de:"Fahrt; Fahrgeschäft", answers:["ride"]},
+  {de:"dauern, (Zeit) brauchen", answers:["take","took","taken"], rule:"anyForm"},
+  {de:"Platz (in Stadt oder Dorf)", answers:["square"]},
+  {de:"(etwas) bezahlen", answers:["pay","paid"], rule:"anyForm"},
+  {de:"Geldstrafe", answers:["fine"]},
+  {de:"hoch", answers:["high"]},
+  {de:"Sehenswürdigkeiten", answers:["sights"]},
+  {de:"örtlich, Orts-, Lokal-", answers:["local"]},
+  {de:"geschrieben von …", answers:["written by"], halfAnswers:["written"], rule:"writtenBy"},
+  {de:"halten von, denken über", answers:["think of","think about"], rule:"thinkOfAbout"},
+  {de:"denken, glauben, meinen", answers:["think"]},
+  {de:"sich ausdenken", answers:["think of"]}
+];
+
+let selected = [];
+let submitted = false;
+let leaveCount = 0;
+let splitCount = 0;
+let lastLeaveAt = 0;
+let baseW = 0, baseH = 0;
+let splitState = false;
+let scores = [];
+let audioCtx = null;
+let alarmPending = false;
+let leaveLog = [];
+
+const $ = id => document.getElementById(id);
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function select12(){
+  return shuffle(VOCAB).slice(0,12);
+}
+
+function cleanSeparatorsPreserveCase(s){
+  return (s||"")
+    .trim()
+    .replace(/[()[\]{}]/g," ")
+    .replace(/[\/\\|,;:_]+/g," ")
+    .replace(/[‐‑‒–—-]+/g," ")
+    .replace(/\s+/g," ");
+}
+
+function lowerWords(s){
+  return cleanSeparatorsPreserveCase(s).toLowerCase();
+}
+
+function casePenaltyForExact(raw, target){
+  const cleaned = cleanSeparatorsPreserveCase(raw);
+  const targetClean = cleanSeparatorsPreserveCase(target);
+  if(cleaned === targetClean) return 1;
+  if(cleaned.toLowerCase() === targetClean.toLowerCase()) return 0.5;
+  return null;
+}
+
+function tokensPreserveCase(s){
+  return cleanSeparatorsPreserveCase(s).split(/\s+/).filter(Boolean);
+}
+
+function standardOnePoint(raw, variants){
+  const answer=cleanSeparatorsPreserveCase(raw);
+  if(!answer) return 0;
+
+  for(const v of variants){
+    const exact=casePenaltyForExact(answer,v);
+    if(exact!==null) return exact;
+  }
+
+  const low=answer.toLowerCase();
+  const d=Math.min(...variants.map(v=>levenshtein(low,cleanSeparatorsPreserveCase(v).toLowerCase())));
+  if(d===1) return 0.5;
+  return 0;
+}
+
+function scoreStandard(item, answer){
+  const raw=(answer||"").trim();
+  if(!raw) return {score:0,status:"bad"};
+
+  if(item.rule==="tubePractice"){
+    const low=cleanSeparatorsPreserveCase(raw).toLowerCase();
+    if(low==="the tube" || low==="tube") return {score:1,status:"good"};
+    const d=Math.min(levenshtein(low,"the tube"),levenshtein(low,"tube"));
+    if(d===1) return {score:.5,status:"half"};
+    return {score:0,status:"bad"};
+  }
+
+  if(item.rule==="anyForm"){
+    const toks=tokensPreserveCase(raw);
+    for(const tok of toks){
+      for(const v of item.answers){
+        if(tok===v) return {score:1,status:"good"};
+      }
+    }
+    for(const tok of toks){
+      for(const v of item.answers){
+        if(tok.toLowerCase()===v.toLowerCase()) return {score:.5,status:"half"};
+        if(levenshtein(tok.toLowerCase(),v.toLowerCase())===1) return {score:.5,status:"half"};
+      }
+    }
+    return {score:0,status:"bad"};
+  }
+
+  if(item.rule==="thinkOfAbout"){
+    const cleaned=cleanSeparatorsPreserveCase(raw);
+    const words=cleaned.split(/\s+/).filter(Boolean);
+    const low=words.map(w=>w.toLowerCase());
+
+    const hasThink=low.includes("think");
+    const hasRequired=low.includes("of") || low.includes("about");
+
+    if(hasThink && hasRequired){
+      const thinkIndex=low.indexOf("think");
+      const thinkCaseOK=words[thinkIndex]==="think";
+      return thinkCaseOK ? {score:1,status:"good"} : {score:.5,status:"half"};
+    }
+
+    if(cleaned==="think") return {score:.5,status:"half"};
+    if(cleaned.toLowerCase()==="think") return {score:0,status:"bad"};
+    return {score:0,status:"bad"};
+  }
+
+  if(item.rule==="writtenBy"){
+    const cleaned=cleanSeparatorsPreserveCase(raw);
+    if(cleaned==="written by") return {score:1,status:"good"};
+    if(cleaned.toLowerCase()==="written by") return {score:.5,status:"half"};
+    if(cleaned==="written") return {score:.5,status:"half"};
+    if(cleaned.toLowerCase()==="written") return {score:0,status:"bad"};
+    if(levenshtein(cleaned.toLowerCase(),"written by")===1) return {score:.5,status:"half"};
+    return {score:0,status:"bad"};
+  }
+
+  const score=standardOnePoint(raw,item.answers);
+  return {score,status:score===1?"good":score===.5?"half":"bad"};
+}
+
+function scoreLRS(item, answer){
+  const raw=(answer||"").trim();
+  if(!raw) return {score:0,status:"bad"};
+
+  if(item.rule==="tubePractice"){
+    const low=lowerWords(raw);
+    if(low==="the tube" || low==="tube") return {score:1,status:"good"};
+  }
+
+  if(item.rule==="thinkOfAbout"){
+    const words=lowerWords(raw).split(/\s+/).filter(Boolean);
+    const hasThink=words.includes("think");
+    const hasRequired=words.includes("of") || words.includes("about");
+    if(hasThink && hasRequired) return {score:1,status:"good"};
+    if(words.length===1 && words[0]==="think") return {score:.5,status:"half"};
+    return {score:0,status:"bad"};
+  }
+
+  if(item.rule==="writtenBy"){
+    const low=lowerWords(raw);
+    if(low==="written by") return {score:1,status:"good"};
+    if(low==="written") return {score:.5,status:"half"};
+  }
+
+  if(item.rule==="anyForm"){
+    const toks=tokensPreserveCase(raw).map(t=>t.toLowerCase());
+    for(const tok of toks){
+      for(const v of item.answers){
+        const vv=v.toLowerCase();
+        const maxLen=Math.max(tok.length,vv.length);
+        const d=levenshtein(tok,vv);
+        const similarity=maxLen ? 1-d/maxLen : 0;
+        if(tok===vv || (maxLen>=4 && d<=Math.max(2,Math.floor(maxLen*0.35)) && similarity>=0.55)){
+          return {score:1,status:"good"};
+        }
+      }
+    }
+    return {score:0,status:"bad"};
+  }
+
+  const low=lowerWords(raw);
+  let best={d:999,v:""};
+  for(const v of item.answers){
+    const vv=cleanSeparatorsPreserveCase(v).toLowerCase();
+    const d=levenshtein(low,vv);
+    if(d<best.d) best={d,v:vv};
+  }
+
+  const maxLen=Math.max(low.length,best.v.length);
+  const similarity=maxLen ? 1-best.d/maxLen : 0;
+  const sameFirst=low[0] && best.v[0] && low[0]===best.v[0];
+  const allowedErrors=maxLen<=4 ? 1 : Math.max(2,Math.floor(maxLen*0.35));
+
+  if((sameFirst || best.d===1) && best.d<=allowedErrors && similarity>=0.55){
+    return {score:1,status:"good"};
+  }
+  return {score:0,status:"bad"};
+}
+
+function renderQuestions(){
+  $("questions").innerHTML="";
+  selected.forEach((item,i)=>{
+    const row=document.createElement("div");
+    row.className="question";
+    row.innerHTML=`
+      <div class="nr">${i+1}</div>
+      <div>
+        <div class="prompt">${item.de}</div>
+        <input type="text" id="ans${i}" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" inputmode="text" enterkeyhint="next" placeholder="Englisch" />
+      </div>`;
+    $("questions").appendChild(row);
+  });
+}
+
+function initAudio(){
+  try{
+    if(!audioCtx){
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(AC) audioCtx = new AC();
+    }
+    if(audioCtx && audioCtx.state === "suspended"){
+      audioCtx.resume();
+    }
+  }catch(e){}
+}
+
+function playAlarm(){
+  try{
+    if(!audioCtx) initAudio();
+    if(!audioCtx || audioCtx.state !== "running") return false;
+
+    const now = audioCtx.currentTime;
+    const gain = audioCtx.createGain();
+    gain.gain.setValueAtTime(0.0001, now);
+    gain.gain.exponentialRampToValueAtTime(0.65, now + 0.02);
+    gain.gain.setValueAtTime(0.65, now + 1.15);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.3);
+    gain.connect(audioCtx.destination);
+
+    const pattern = [880, 640, 880];
+    pattern.forEach((freq, idx)=>{
+      const osc = audioCtx.createOscillator();
+      osc.type = "square";
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      const start = now + idx * 0.36;
+      osc.start(start);
+      osc.stop(start + 0.25);
+    });
+    return true;
+  }catch(e){
+    return false;
+  }
+}
+
+function recordLeave(){
+  if(submitted || Date.now() < securityIgnoreUntil) return;
+  const now=Date.now();
+  if(now-lastLeaveAt<1200) return; // Doppelzählung blur + visibility vermeiden
+  lastLeaveAt=now;
+  leaveCount++;
+  leaveLog.push(new Date().toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit",second:"2-digit"}));
+  alarmPending = true;
+  // iPadOS kann Audio im Hintergrund blockieren. Wir versuchen es sofort
+  // und spielen es andernfalls direkt beim Zurückkehren ab.
+  if(playAlarm()) alarmPending = false;
+}
+
+let hiddenCheckTimer = null;
+
+document.addEventListener("visibilitychange",()=>{
+  if(submitted || Date.now() < securityIgnoreUntil) return;
+
+  if(document.visibilityState==="hidden"){
+    clearTimeout(hiddenCheckTimer);
+
+    // Echte App-/Tab-Wechsel bleiben normalerweise länger als ein kurzer UI-Flackerer hidden.
+    hiddenCheckTimer = setTimeout(()=>{
+      if(document.visibilityState==="hidden" && !submitted && Date.now() >= securityIgnoreUntil){
+        recordLeave();
+      }
+    },250);
+
+  } else if(document.visibilityState==="visible"){
+    clearTimeout(hiddenCheckTimer);
+    hiddenCheckTimer = null;
+
+    // iPadOS blockiert Ton oft im Hintergrund.
+    // Deshalb Alarm sofort nach Rückkehr nachholen.
+    if(alarmPending && !submitted && Date.now() >= securityIgnoreUntil){
+      initAudio();
+      setTimeout(()=>{
+        if(playAlarm()) alarmPending=false;
+      },60);
+    }
+  }
+});
+
+// Echtes Navigieren/Schließen zusätzlich erfassen.
+window.addEventListener("pagehide",()=>{
+  if(!submitted && Date.now() >= securityIgnoreUntil){
+    recordLeave();
+  }
+});
+
+function checkSplit(){
+  if(submitted || Date.now() < securityIgnoreUntil || !baseW) return;
+
+  // Nur Verdacht: deutliche Breitenänderung kann auf Split View / Slide Over hindeuten.
+  const suspicious = window.innerWidth < baseW*0.85;
+
+  if(suspicious && !splitState){
+    splitCount++;
+    splitState=true;
+
+    // Kurzer Hinweisalarm. iPadOS kann Audio je nach Zustand blockieren.
+    alarmPending = true;
+    if(playAlarm()) alarmPending = false;
+
+  } else if(!suspicious){
+    splitState=false;
+  }
+}
+window.addEventListener("resize",()=>setTimeout(checkSplit,200));
+
+
+document.addEventListener("copy",(e)=>{
+  if(!submitted){
+    e.preventDefault();
+  }
+});
+document.addEventListener("cut",(e)=>{
+  if(!submitted){
+    e.preventDefault();
+  }
+});
+document.addEventListener("paste",(e)=>{
+  if(!submitted){
+    e.preventDefault();
+  }
+});
+document.addEventListener("drop",(e)=>{
+  if(!submitted){
+    e.preventDefault();
+  }
+});
+document.addEventListener("beforeinput",(e)=>{
+  if(!submitted && (e.inputType === "insertFromPaste" || e.inputType === "insertFromDrop")){
+    e.preventDefault();
+  }
+});
+document.addEventListener("contextmenu",(e)=>{
+  if(!submitted){
+    e.preventDefault();
+  }
+});
+document.addEventListener("selectstart",(e)=>{
+  if(!submitted && e.target && e.target.tagName!=="INPUT"){
+    e.preventDefault();
+  }
+});
+
+window.addEventListener("beforeunload",(e)=>{
+  if(!submitted && !$("testCard").classList.contains("hidden")){
+    e.preventDefault();
+    e.returnValue="";
+  }
+});
+
+$("startBtn").addEventListener("click",()=>{
+  initAudio();
+  const name=$("studentName").value.trim();
+  if(!name){
+    alert("Bitte zuerst den Namen eintragen.");
+    return;
+  }
+  selected=select12();
+  submitted=false;
+  leaveCount=0; splitCount=0; scores=[]; alarmPending=false; leaveLog=[];
+  baseW=window.innerWidth; baseH=window.innerHeight; splitState=false;
+  renderQuestions();
+  $("setupCard").classList.add("hidden");
+  $("testCard").classList.remove("hidden");
+  $("correctionCard").classList.add("hidden");
+  $("monitorStatus").textContent="Überwachung aktiv · Seitenwechsel werden protokolliert";
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+
+function openTeacherGate(){
+  const dlg=$("passwordDialog");
+  try{
+    if(typeof dlg.showModal==="function"){
+      dlg.showModal();
+      return;
+    }
+  }catch(e){}
+  dlg.setAttribute("open","");
+}
+
+function closeTeacherGate(){
+  const dlg=$("passwordDialog");
+  try{
+    if(typeof dlg.close==="function" && dlg.open){
+      dlg.close();
+      return;
+    }
+  }catch(e){}
+  dlg.removeAttribute("open");
+}
+
+$("submitBtn").addEventListener("click",()=>{
+  if(!confirm("Test wirklich abgeben? Danach können die Antworten nicht mehr geändert werden.")) return;
+
+  // Submission itself must never trigger the anti-cheat alarm.
+  // Closing the iPad keyboard, opening the password dialog or changing
+  // the viewport can otherwise look like a leave/split-screen event.
+  securityIgnoreUntil = Date.now() + 1800;
+  clearTimeout(hiddenCheckTimer);
+  alarmPending = false;
+  splitState = false;
+
+  submitted=true;
+  selected.forEach((_,i)=>$("ans"+i).disabled=true);
+  $("testCard").classList.add("locked");
+  $("monitorStatus").textContent="Test abgegeben";
+  $("passwordError").textContent="";
+  $("teacherPassword").value="";
+  openTeacherGate();
+});
+
+$("checkPasswordBtn").addEventListener("click",()=>{
+  if($("teacherPassword").value!==TEACHER_PASSWORD){
+    $("passwordError").textContent="Passwort nicht korrekt.";
+    return;
+  }
+  closeTeacherGate();
+  buildCorrection();
+});
+$("teacherPassword").addEventListener("keydown",(e)=>{
+  if(e.key==="Enter"){
+    e.preventDefault();
+    $("checkPasswordBtn").click();
+  }
+});
+
+function makeCode(fullName){
+  const parts=(fullName||"").trim().split(/\s+/).filter(Boolean);
+  if(parts.length<2) return (parts[0]||"").slice(0,7);
+  const first=parts[0];
+  const last=parts[parts.length-1];
+  return first.slice(0,3)+last.slice(0,4);
+}
+
+async function uploadResult(){
+  const total=scores.reduce((a,b)=>a+b,0);
+
+  // Die gleiche Korrektur, die später als JPEG ausgegeben wird,
+  // wird zusätzlich an das Apps Script gesendet.
+  const jpeg = makeJPEG();
+
+  const payload={
+    klasse:"7e",
+    test:"Unit 1 – I love London",
+    kuerzel:makeCode($("studentName").value),
+    punkte:total,
+    maxPunkte:12,
+    note:calculateGrade(total),
+    lrs:$("lrsMode").checked,
+    verlassen:leaveCount,
+    split:splitCount,
+    jpeg:jpeg
+  };
+
+  $("uploadStatus").textContent="Ergebnis und Korrekturbild werden übertragen …";
+  try{
+    await fetch(RESULTS_URL,{
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload)
+    });
+    $("uploadStatus").textContent="✓ Ergebnis und Korrekturbild wurden gesendet.";
+  }catch(err){
+    $("uploadStatus").textContent="⚠ Übertragung fehlgeschlagen. Bitte Internetverbindung prüfen.";
+  }
+}
+
+function buildCorrection(){
+  const mode=$("lrsMode").checked ? "lrs" : "standard";
+  scores=[];
+  $("results").innerHTML="";
+  selected.forEach((item,i)=>{
+    const answer=$("ans"+i).value.trim();
+    const r= mode==="lrs" ? scoreLRS(item,answer) : scoreStandard(item,answer);
+    scores.push(r.score);
+
+    const row=document.createElement("div");
+    row.className="result-row";
+    const cls=r.status==="good"?"answer-good":r.status==="half"?"answer-half":"answer-bad";
+    row.innerHTML=`
+      <div class="nr">${i+1}</div>
+      <div><strong>${item.de}</strong></div>
+      <div class="${cls}" style="padding:8px;border-radius:8px">${answer || "—"}</div>
+      <div>${item.answers[0]}</div>
+      <div class="pts" data-i="${i}">
+        <button class="ptbtn ${r.score===0?"active":""}" data-p="0">0</button>
+        <button class="ptbtn ${r.score===0.5?"active":""}" data-p="0.5">0,5</button>
+        <button class="ptbtn ${r.score===1?"active":""}" data-p="1">1</button>
+      </div>`;
+    $("results").appendChild(row);
+  });
+
+  document.querySelectorAll(".pts").forEach(group=>{
+    group.querySelectorAll(".ptbtn").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        const i=Number(group.dataset.i);
+        scores[i]=Number(btn.dataset.p);
+        group.querySelectorAll(".ptbtn").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        updateSummary();
+      });
+    });
+  });
+
+  $("testCard").classList.add("hidden");
+  $("setupCard").classList.add("hidden");
+  $("correctionCard").classList.remove("hidden");
+  $("previewWrap").classList.add("hidden");
+  updateSummary();
+
+  // Render correction first. Upload runs afterwards and must never block the UI.
+  window.scrollTo(0,0);
+  requestAnimationFrame(()=>{
+    try{ uploadResult(); }catch(e){
+      $("uploadStatus").textContent="⚠ Übertragung fehlgeschlagen. Die Korrektur bleibt sichtbar.";
+    }
+  });
+}
+
+function calculateGrade(total){
+  const pct = (total / 12) * 100;
+  if(pct >= 91) return 1;
+  if(pct >= 81) return 2;
+  if(pct >= 66) return 3;
+  if(pct >= 50) return 4;
+  if(pct >= 26) return 5;
+  return 6;
+}
+
+function updateSummary(){
+  const total=scores.reduce((a,b)=>a+b,0);
+  $("totalScore").textContent=(Number.isInteger(total)?total:total.toFixed(1).replace(".",","))+" / 12";
+  $("gradeOut").textContent=calculateGrade(total);
+  $("leaveCountOut").textContent=leaveCount+"×";
+  $("splitCountOut").textContent=splitCount+"×";
+  $("leaveLogBox").textContent = leaveLog.length
+    ? "Zeitpunkte Seitenwechsel: " + leaveLog.join(" · ")
+    : "Keine registrierten Seitenwechsel.";
+}
+
+function wrapText(ctx,text,maxWidth){
+  const words=text.split(" ");
+  const lines=[]; let line="";
+  for(const word of words){
+    const test=line?line+" "+word:word;
+    if(ctx.measureText(test).width>maxWidth && line){
+      lines.push(line); line=word;
+    } else line=test;
+  }
+  if(line) lines.push(line);
+  return lines;
+}
+
+function makeJPEG(){
+  const name=$("studentName").value.trim();
+  const isLRS=$("lrsMode").checked;
+  const total=scores.reduce((a,b)=>a+b,0);
+  const grade=calculateGrade(total);
+
+  // A4-artiges Hochformat, bewusst kompakt: komplette Korrektur auf EINER Seite.
+  const W=1240, H=1754, pad=64;
+  const canvas=document.createElement("canvas");
+  canvas.width=W; canvas.height=H;
+  const ctx=canvas.getContext("2d");
+
+  ctx.fillStyle="#f6f6f3";
+  ctx.fillRect(0,0,W,H);
+
+  // Kopfkarte
+  ctx.fillStyle="#ffffff";
+  roundRect(ctx,pad,48,W-pad*2,176,24,true,false);
+  ctx.fillStyle="#171717";
+  ctx.font="700 39px Arial";
+  ctx.fillText("Unit 1 – I love London – Class 7e",pad+28,103);
+  ctx.font="24px Arial";
+  ctx.fillStyle="#6f6f6f";
+  ctx.fillText("Name: "+name,pad+28,148);
+  ctx.fillText(isLRS ? "LRS – Rechtschreibung nicht bewertet" : "Standardbewertung",pad+28,186);
+
+  // Aufgaben/Korrekturkarte
+  const cardY=246, cardH=1220;
+  ctx.fillStyle="#ffffff";
+  roundRect(ctx,pad,cardY,W-pad*2,cardH,24,true,false);
+
+  const xNr=pad+28, xDe=pad+82, xAns=pad+465, xSol=pad+785, xPts=W-pad-92;
+  let y=cardY+54;
+  const rowH=92;
+
+  selected.forEach((item,i)=>{
+    if(i>0){
+      ctx.strokeStyle="#ecece8"; ctx.lineWidth=1;
+      ctx.beginPath();ctx.moveTo(pad+25,y-27);ctx.lineTo(W-pad-25,y-27);ctx.stroke();
+    }
+
+    // Nummernkreis
+    ctx.fillStyle="#f0f0ed";
+    ctx.beginPath();ctx.arc(xNr+17,y-7,19,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle="#171717";ctx.font="700 20px Arial";ctx.textAlign="center";
+    ctx.fillText(String(i+1),xNr+17,y);
+    ctx.textAlign="left";
+
+    // Deutsch
+    ctx.fillStyle="#171717";ctx.font="700 20px Arial";
+    const deLines=wrapText(ctx,item.de,345);
+    deLines.slice(0,2).forEach((line,k)=>ctx.fillText(line,xDe,y-3+k*24));
+
+    // Antwort mit derselben Farblogik wie auf der Korrekturseite
+    const ans=$("ans"+i).value.trim() || "—";
+    const p=scores[i];
+    let fill="#fde7e7";
+    if(p===1) fill="#e8f6ea";
+    else if(p===0.5) fill="#fff4d8";
+    ctx.fillStyle=fill;
+    roundRect(ctx,xAns-12,y-30,286,54,10,true,false);
+    ctx.fillStyle="#171717";ctx.font="20px Arial";
+    const ansLines=wrapText(ctx,ans,260);
+    ansLines.slice(0,2).forEach((line,k)=>ctx.fillText(line,xAns,y-3+k*21));
+
+    // Lösung
+    ctx.fillStyle="#171717";ctx.font="19px Arial";
+    const solLines=wrapText(ctx,item.answers[0],235);
+    solLines.slice(0,2).forEach((line,k)=>ctx.fillText(line,xSol,y-3+k*22));
+
+    // Punkte
+    ctx.font="700 21px Arial";
+    ctx.fillText((p===0.5?"0,5":String(p))+" P.",xPts,y-2);
+    y+=rowH;
+  });
+
+  // Ergebnisbereich
+  const sumY=1492;
+  ctx.fillStyle="#ffffff";
+  roundRect(ctx,pad,sumY,W-pad*2,198,24,true,false);
+
+  ctx.fillStyle="#171717";ctx.font="700 24px Arial";
+  ctx.fillText("Gesamt",pad+28,sumY+46);
+  ctx.font="700 35px Arial";
+  const totalText=(Number.isInteger(total)?total:total.toFixed(1).replace(".",","))+" / 12";
+  ctx.fillText(totalText,pad+28,sumY+90);
+
+  ctx.font="700 24px Arial";
+  ctx.fillText("Note",pad+285,sumY+46);
+  ctx.font="700 42px Arial";
+  ctx.fillText(String(grade),pad+285,sumY+92);
+
+  ctx.font="700 18px Arial";
+  ctx.fillText("Testseite verlassen",pad+480,sumY+46);
+  ctx.font="700 32px Arial";
+  ctx.fillText(leaveCount+"×",pad+480,sumY+90);
+
+  ctx.font="700 18px Arial";
+  ctx.fillText("Split-Screen-Verdacht",pad+755,sumY+46);
+  ctx.font="700 32px Arial";
+  ctx.fillText(splitCount+"×",pad+755,sumY+90);
+
+  ctx.fillStyle="#6f6f6f";ctx.font="16px Arial";
+  const logText = leaveLog.length ? "Seitenwechsel: "+leaveLog.join(" · ") : "Keine registrierten Seitenwechsel.";
+  const logLines = wrapText(ctx,logText,W-pad*2-56);
+  logLines.slice(0,2).forEach((line,k)=>ctx.fillText(line,pad+28,sumY+140+k*20));
+  ctx.font="15px Arial";
+  ctx.fillText("Seitenwechsel werden protokolliert. Split-Screen-Erkennung ist nur ein technischer Verdacht.",pad+28,sumY+184);
+
+  return canvas.toDataURL("image/jpeg",0.94);
+}
+
+function roundRect(ctx,x,y,w,h,r,fill,stroke){
+  if(w<2*r) r=w/2;
+  if(h<2*r) r=h/2;
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+  if(fill) ctx.fill();
+  if(stroke) ctx.stroke();
+}
+$("outputBtn").addEventListener("click",()=>{
+  const data=makeJPEG();
+  $("previewImg").src=data;
+  $("previewWrap").classList.remove("hidden");
+
+  const safeName=$("studentName").value.trim().replace(/[^a-z0-9äöüß_-]+/gi,"_");
+  const a=document.createElement("a");
+  a.href=data;
+  a.download=`Vocabulary_207_${safeName}.jpg`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+$("newTestBtn").addEventListener("click",()=>{
+  if(!confirm("Neuen Test starten? Die aktuelle Korrektur wird dabei verworfen.")) return;
+  selected=[];scores=[];submitted=false;alarmPending=false;leaveLog=[];
+  $("questions").innerHTML="";
+  $("results").innerHTML="";
+  $("testCard").classList.add("hidden");
+  $("correctionCard").classList.add("hidden");
+  $("setupCard").classList.remove("hidden");
+  $("studentName").value="";
+  $("lrsMode").checked=false;
+  $("monitorStatus").textContent="Überwachung aktiv";
+  window.scrollTo({top:0,behavior:"smooth"});
+});
+</script>
+</body>
+</html>
